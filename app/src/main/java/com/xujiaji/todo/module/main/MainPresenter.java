@@ -87,7 +87,7 @@ public class MainPresenter extends BasePresenter<MainContract.View,MainModel> im
                             JSONObject jsonObject = new JSONObject(json);
                             updateAppBean
                                     //（必须）是否更新Yes,No
-                                    .setUpdate(jsonObject.optInt("version_code") > VersionUtil.getVersionCode(activity) ? "Yes" : "No")
+                                    .setUpdate(jsonObject.optInt("version_code") > VersionUtil.getVersionCode(activity) && VersionUtil.getVersionCode(activity) != -1 ? "Yes" : "No")
                                     //（必须）新版本号，
                                     .setNewVersion(jsonObject.getString("version_name"))
                                     //（必须）下载地址

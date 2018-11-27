@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.xujiaji.todo.BuildConfig;
+
 /**
  * 版本工具
  * Created by Administrator on 2017/8/17.
@@ -74,11 +76,11 @@ public class VersionUtil {
         // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo = null;
         try {
-            packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            packInfo = packageManager.getPackageInfo(BuildConfig.APPLICATION_ID, 0);
             return packInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return 0;
+        return -1;
     }
 }
