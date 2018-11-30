@@ -27,4 +27,19 @@
     <string name="link_out_time">连接超时</string>
     <string name="example_eat">例如，吃饭</string>
     <string name="loading">加载中…</string>
+    <string name="about">关于</string>
+    <string name="used_libraries">项目中使用的 Library</string>
+    <string name="give_friend_download"><![CDATA[分享给身边的好友扫描下载 >]]></string>
+    <string name="app_info">一个非常简洁清爽的清单工具，\n帮您轻松记录个人计划。\n\n
+        本App的特色就是简洁，\n在交互上让人体会到视觉上的舒适感。 \n\n
+        固定的4种清单分类在顶部可直接切换列表。 \n\n
+
+        项目主要框架结构：\n
+        MVP+okhttp3+retrofit+gson \n
+
+        \n\n 开源地址：\n https://github.com/xujiaji/Todo
+
+        \n\n API由WanAndroid提供：\n http://www.wanandroid.com
+    </string>
+    <string name="opean_source_libraries">开源Libraries</string>
 </resources>

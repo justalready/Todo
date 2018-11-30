@@ -28,4 +28,6 @@
 	<string name="link_out_time">Connection timed out</string>
 	<string name="example_eat">For example, eating</string>
 	<string name="loading">Loading…</string>
+	<string name="about">About</string>
+	<string name="used_libraries">Used Libraries</string>
 </resources>

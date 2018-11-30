@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import com.vector.update_app.UpdateAppBean;
 import com.vector.update_app.UpdateAppManager;
 import com.vector.update_app.UpdateCallback;
+import com.xujiaji.todo.BuildConfig;
 import com.xujiaji.todo.R;
 import com.xujiaji.todo.base.App;
 import com.xujiaji.todo.base.BasePresenter;
@@ -67,7 +68,7 @@ public class MainPresenter extends BasePresenter<MainContract.View,MainModel> im
                 //必须设置，实现httpManager接口的对象
                 .setHttpManager(new UpdateAppHttpUtil())
                 //必须设置，更新地址
-                .setUpdateUrl(UPDATE_VERSION_URL)
+                .setUpdateUrl(BuildConfig.UPDATE_VERSION_URL)
                 .setThemeColor(ContextCompat.getColor(activity, R.color.colorAccent))
                 //设置apk下砸路径，默认是在下载到sd卡下/Download/1.0.0/test.apk
                 .setTargetPath(FileUtil.getDiskCacheDir(activity).getAbsolutePath())

@@ -1,7 +1,9 @@
 package com.xujiaji.todo.module.main;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +19,15 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.xujiaji.happybubble.BubbleDialog;
+import com.xujiaji.happybubble.BubbleLayout;
+import com.xujiaji.happybubble.Util;
 import com.xujiaji.todo.R;
 import com.xujiaji.todo.base.App;
 import com.xujiaji.todo.base.BaseActivity;
+import com.xujiaji.todo.helper.BubbleCreator;
 import com.xujiaji.todo.helper.EmptyViewHelper;
 import com.xujiaji.todo.helper.ToolbarHelper;
+import com.xujiaji.todo.module.about.AboutActivity;
 import com.xujiaji.todo.module.login.LoginDialogActivity;
 import com.xujiaji.todo.module.post.PostFragment;
 import com.xujiaji.todo.repository.bean.TodoTypeBean;
@@ -80,6 +86,7 @@ public class MainActivity extends  BaseActivity<MainPresenter> implements MainCo
         mContentBubbleDialog = new BubbleDialog(this)
                 .addContentView(view)
                 .setRelativeOffset(-16)
+                .setBubbleLayout(BubbleCreator.get(this))
                 .setPosition(BubbleDialog.Position.TOP, BubbleDialog.Position.BOTTOM);
 
 
@@ -190,9 +197,18 @@ public class MainActivity extends  BaseActivity<MainPresenter> implements MainCo
             mBubbleDialog = new BubbleDialog(this)
                     .setPosition(BubbleDialog.Position.BOTTOM)
                     .addContentView(view)
-                    .setRelativeOffset(-24);
+                    .setRelativeOffset(-24)
+                    .setBubbleLayout(BubbleCreator.get(this));
             if (mBubbleDialog.getWindow() != null)
                 mBubbleDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+            view.findViewById(R.id.btnAbout).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hideChooseTodoCategory();
+                    AboutActivity.launch(MainActivity.this);
+                }
+            });
+            view.findViewById(R.id.btnAbout).setVisibility(View.VISIBLE);
             RadioGroup group = view.findViewById(R.id.rgGroup);
             group.check(R.id.rbUseOne);
             group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

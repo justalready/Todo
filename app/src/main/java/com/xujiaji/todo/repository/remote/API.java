@@ -1,8 +1,11 @@
 package com.xujiaji.todo.repository.remote;
 
+import com.xujiaji.todo.repository.bean.LicenseBean;
 import com.xujiaji.todo.repository.bean.Result;
 import com.xujiaji.todo.repository.bean.TodoTypeBean;
 import com.xujiaji.todo.repository.bean.UserBean;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -10,6 +13,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 /**
  * author: xujiaji
@@ -65,4 +69,10 @@ public interface API {
      */
     @POST("lg/todo/delete/{id}/json")
     Call<Result> postDelTodo(@Path("id") int id);
+
+    /**
+     *  获取项目中使用的开源库信息
+     */
+    @GET
+    Call<Result<List<LicenseBean>>> getLicenses(@Url String url);
 }

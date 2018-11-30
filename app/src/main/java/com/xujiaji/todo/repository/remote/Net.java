@@ -2,13 +2,16 @@ package com.xujiaji.todo.repository.remote;
 
 import android.text.TextUtils;
 
+import com.xujiaji.todo.BuildConfig;
 import com.xujiaji.todo.helper.PrefHelper;
+import com.xujiaji.todo.repository.bean.LicenseBean;
 import com.xujiaji.todo.repository.bean.Result;
 import com.xujiaji.todo.repository.bean.TodoTypeBean;
 import com.xujiaji.todo.repository.bean.UserBean;
 import com.xujiaji.todo.util.NetUtil;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -43,7 +46,6 @@ public class Net {
     public static final int NO = 0;
 
     public static final String BASE_URL = "http://www.wanandroid.com/";
-    public static final String UPDATE_VERSION_URL = "https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/source/json_repository/todo_version";
 
     public static final String SAVE_USER_LOGIN_KEY = "user/login";
     public static final String SAVE_USER_REGISTER_KEY = "user/register";
@@ -150,5 +152,9 @@ public class Net {
 
     public void postDelTodo(int id, Callback<Result> callback) {
         api.postDelTodo(id).enqueue(callback);
+    }
+
+    public void getLicense(Callback<Result<List<LicenseBean>>> callback) {
+        api.getLicenses(BuildConfig.LICENSES_URL).enqueue(callback);
     }
 }

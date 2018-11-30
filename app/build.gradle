@@ -16,7 +16,9 @@ android {
         versionCode 14
         versionName "1.0.13"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        buildConfigField "String",           "BASE_URL", "$baseUrl"
+        buildConfigField "String",       "LICENSES_URL", "$licensesUrl"
+        buildConfigField "String", "UPDATE_VERSION_URL", "$versionUrl"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -75,6 +77,7 @@ dependencies {
     implementation "com.umeng.sdk:common:$umengCommon"
     implementation "com.umeng.sdk:analytics:$umengAnalytics"
     implementation 'com.qihoo360.replugin:replugin-plugin-lib:2.3.0'
+    implementation "com.github.bumptech.glide:glide:$glide"
 
     implementation project(':DateTimePickerLibrary')
 }

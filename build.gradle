@@ -28,6 +28,10 @@ task clean(type: Delete) {
 }
 
 ext{
+    baseUrl          = '"http://www.wanandroid.com/"'
+    licensesUrl      = '"https://raw.githubusercontent.com/xujiaji/Todo/master/json/licenses.json"'
+    versionUrl       = '"https://raw.githubusercontent.com/xujiaji/Todo/master/json/todo_version.json"'
+
     support          = '28.0.0'
     retrofit         = '2.0.2'
     okhttp3          = '3.6.0'
@@ -40,4 +44,5 @@ ext{
     updateApp        = '3.5.2'
     umengCommon      = '1.5.3'
     umengAnalytics   = '7.5.3'
+    glide            = '4.7.1'
 }

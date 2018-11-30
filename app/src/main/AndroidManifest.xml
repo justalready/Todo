@@ -27,6 +27,8 @@
         <activity
             android:theme="@style/DialogActivity"
             android:name=".module.login.LoginDialogActivity" />
+        <activity android:name=".module.about.AboutActivity" />
+        <activity android:name=".module.about.LicenseActivity" />
     </application>
 
 </manifest>
