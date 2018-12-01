@@ -62,7 +62,8 @@ public interface API {
             @Field("title")     String title,
             @Field("content") String content,
             @Field("date")       String date,
-            @Field("type")         int type);
+            @Field("type")          int type,
+            @Field("priority")  int priority);
 
     /**
      * 删除一个todo

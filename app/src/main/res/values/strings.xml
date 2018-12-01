@@ -42,4 +42,9 @@
         \n\n API由WanAndroid提供：\n http://www.wanandroid.com
     </string>
     <string name="opean_source_libraries">开源Libraries</string>
+    <string name="please_choose_category">请选择一个分类！不选默认第一个分类哦</string>
+    <string name="urgent_important">既紧急又重要</string>
+    <string name="important_not_urgent">重要但不紧急</string>
+    <string name="urgent_not_important">紧急但不重要</string>
+    <string name="not_urgent_not_important">不紧急不重要</string>
 </resources>

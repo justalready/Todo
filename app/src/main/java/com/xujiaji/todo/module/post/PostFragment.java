@@ -21,6 +21,7 @@ import com.xujiaji.todo.helper.InputHelper;
 import com.xujiaji.todo.helper.ToastHelper;
 import com.xujiaji.todo.helper.ToolbarHelper;
 import com.xujiaji.todo.module.main.MainActivity;
+import com.xujiaji.todo.module.main.MainContract;
 import com.xujiaji.todo.repository.bean.TodoTypeBean;
 import com.xujiaji.todo.util.SoftKeyUtil;
 
@@ -39,18 +40,21 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
     private EditText mEtInput;
     private ImageView mBtnChooseCalendar;
     private ImageView mBtnTypeList;
+    private ImageView mBtnPriority;
     private ImageView mBtnContent;
     private ImageView mBtnOk;
     private DatePicker mDatePicker;
     private ProgressBar mProgressBar;
     private BubbleDialog mBubbleDialog;
     private BubbleDialog mEditContentBubbleDialog;
+    private BubbleDialog mChoosePriorityDialog;
 
     private @ColorInt int grey = ContextCompat.getColor(App.getInstance(), R.color.grey_500);
     private @ColorInt int green = ContextCompat.getColor(App.getInstance(), R.color.green_500);
 
     private String mDate;
-    private int mCategory = 0;
+    private int mCategory = -1;
+    private int mPriority = MainContract.PRIORITY_NOTURGENT_NOTIMPORTANT;
     private String mContent;
 
     @Override
@@ -66,6 +70,7 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
         mBtnChooseCalendar = getRootView().findViewById(R.id.btnChooseCalendar);
         mBtnTypeList       = getRootView().findViewById(R.id.btnTypeList);
         mProgressBar       = getRootView().findViewById(R.id.progressBar);
+        mBtnPriority       = getRootView().findViewById(R.id.btnPriority);
         mBtnContent        = getRootView().findViewById(R.id.btnContent);
         mDatePicker        = getRootView().findViewById(R.id.datePicker);
         mEtInput           = getRootView().findViewById(R.id.etInput);
@@ -81,11 +86,13 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
     public void onVisible() {
         super.onVisible();
         mDate = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(System.currentTimeMillis());
-        mCategory = 0;
+        mCategory = -1;
+        mPriority = MainContract.PRIORITY_NOTURGENT_NOTIMPORTANT;
         mContent = null;
 
         mBtnChooseCalendar.setColorFilter(grey);
         mBtnTypeList.setColorFilter(grey);
+        mBtnPriority.setColorFilter(grey);
         mBtnContent.setColorFilter(grey);
 
         mEtInput.requestFocus();
@@ -93,6 +100,7 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
 
         mBubbleDialog = null;
         mEditContentBubbleDialog = null;
+        mChoosePriorityDialog = null;
     }
 
     @Override
@@ -112,6 +120,7 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
         mBtnChooseCalendar.setOnClickListener(this);
         mBtnContent.setOnClickListener(this);
         mBtnTypeList.setOnClickListener(this);
+        mBtnPriority.setOnClickListener(this);
         mBtnOk.setOnClickListener(this);
 
         mDatePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
@@ -154,6 +163,9 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
             case R.id.btnTypeList:
                 showChooseTodoCategory();
                 break;
+            case R.id.btnPriority:
+                showChoosePriority();
+                break;
             case R.id.btnContent:
                 showEditContent();
                 break;
@@ -173,11 +185,19 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
             ToastHelper.info(getString(R.string.please_input_todo));
             return;
         }
+        if (mCategory == -1) {
+            showChooseTodoCategory();
+            ToastHelper.info(getString(R.string.please_choose_category));
+            mCategory = MainContract.CATEGORY_USE_ONE;
+            mBtnTypeList.setColorFilter(green);
+            return;
+        }
         TodoTypeBean.TodoListBean.TodoBean todoBean = new TodoTypeBean.TodoListBean.TodoBean();
         todoBean.setTitle(title);
         todoBean.setType(mCategory);
         todoBean.setContent(mContent);
         todoBean.setDateStr(mDate);
+        todoBean.setPriority(mPriority);
         presenter.requestAddTodo(todoBean);
     }
 
@@ -220,16 +240,16 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
                     mBtnTypeList.setColorFilter(green);
                     switch (checkedId) {
                         case R.id.rbUseOne:
-                            mCategory = 0;
+                            mCategory = MainContract.CATEGORY_USE_ONE;
                             break;
                         case R.id.rbWork:
-                            mCategory = 1;
+                            mCategory = MainContract.CATEGORY_WORK;
                             break;
                         case R.id.rbLearn:
-                            mCategory = 2;
+                            mCategory = MainContract.CATEGORY_LEARN;
                             break;
                         case R.id.rbLife:
-                            mCategory = 3;
+                            mCategory = MainContract.CATEGORY_LIFE;
                             break;
                     }
                 }
@@ -246,6 +266,51 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
     @Override
     public void hideChooseTodoCategory() {
         mBubbleDialog.dismiss();
+    }
+
+    @Override
+    public void showChoosePriority() {
+        if (mChoosePriorityDialog == null) {
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_choose_priority, null);
+            mChoosePriorityDialog = new BubbleDialog(getActivity())
+                    .setPosition(BubbleDialog.Position.TOP)
+                    .addContentView(view);
+            RadioGroup group = view.findViewById(R.id.rgGroup);
+            group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId) {
+                        case R.id.rbPriorityUrgentImportant:
+                            mPriority = MainContract.PRIORITY_URGENT_IMPORTANT;
+                            mBtnPriority.setColorFilter(ContextCompat.getColor(App.getInstance(), R.color.red_800));
+                            break;
+                        case R.id.rbPriorityImportantNotUrgent:
+                            mPriority = MainContract.PRIORITY_IMPORTANT_NOTURGENT;
+                            mBtnPriority.setColorFilter(ContextCompat.getColor(App.getInstance(), R.color.orange_800));
+                            break;
+                        case R.id.rbPriorityUrgentNotImportant:
+                            mPriority = MainContract.PRIORITY_URGENT_NOTIMPORTANT;
+                            mBtnPriority.setColorFilter(ContextCompat.getColor(App.getInstance(), R.color.yellow_800));
+                            break;
+                        case R.id.rbPriorityNotUrgentNotImportant:
+                            mPriority = MainContract.PRIORITY_NOTURGENT_NOTIMPORTANT;
+                            mBtnPriority.setColorFilter(ContextCompat.getColor(App.getInstance(), R.color.grey_500));
+                            break;
+                    }
+                    hideChoosePriority();
+                }
+            });
+        }
+        mChoosePriorityDialog.setClickedView(mBtnPriority);
+        mChoosePriorityDialog.show();
+
+        if (mChoosePriorityDialog.getWindow() != null)
+            mChoosePriorityDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    @Override
+    public void hideChoosePriority() {
+        mChoosePriorityDialog.dismiss();
     }
 
     @Override
@@ -295,6 +360,6 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
         mProgressBar.setVisibility(View.GONE);
         hidePage();
         if (getActivity() != null)
-            ((MainActivity) getActivity()).onRefresh();
+            ((MainActivity) getActivity()).onRefresh(mCategory);
     }
 }

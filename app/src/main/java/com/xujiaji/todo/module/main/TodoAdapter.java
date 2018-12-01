@@ -3,6 +3,7 @@ package com.xujiaji.todo.module.main;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -11,6 +12,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.xujiaji.library.RippleCheckBox;
 import com.xujiaji.library.RippleCheckBoxUtil;
 import com.xujiaji.todo.R;
+import com.xujiaji.todo.base.App;
 import com.xujiaji.todo.repository.bean.TodoTypeBean;
 import com.xujiaji.todo.repository.remote.Net;
 import com.xujiaji.todo.util.DateFormatUtil;
@@ -28,6 +30,10 @@ public class TodoAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Base
     public static final int TYPE_TODO_DATE = 1;
     public static final int TYPE_TODO      = 2;
     private MainPresenter mMainPresenter;
+
+    private int colorPriority1 = ContextCompat.getColor(App.getInstance(), R.color.red_800);
+    private int colorPriority2 = ContextCompat.getColor(App.getInstance(), R.color.orange_800);
+    private int colorPriority3 = ContextCompat.getColor(App.getInstance(), R.color.yellow_800);
 
     public TodoAdapter(MainPresenter mainPresenter) {
         super(new ArrayList<MultiItemEntity>());
@@ -69,6 +75,26 @@ public class TodoAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Base
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 } else {
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_content_small, 0);
+                }
+
+                // 设置优先级标记
+                ImageView imgPriority = helper.getView(R.id.imgPriority);
+                switch (todoBean.getPriority()) {
+                    case MainContract.PRIORITY_URGENT_IMPORTANT:
+                        imgPriority.setVisibility(View.VISIBLE);
+                        imgPriority.setColorFilter(colorPriority1);
+                        break;
+                    case MainContract.PRIORITY_IMPORTANT_NOTURGENT:
+                        imgPriority.setVisibility(View.VISIBLE);
+                        imgPriority.setColorFilter(colorPriority2);
+                        break;
+                    case MainContract.PRIORITY_URGENT_NOTIMPORTANT:
+                        imgPriority.setVisibility(View.VISIBLE);
+                        imgPriority.setColorFilter(colorPriority3);
+                        break;
+                        default:
+                            imgPriority.setVisibility(View.GONE);
+                            break;
                 }
 
                 final View l = helper.getView(R.id.line);

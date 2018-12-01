@@ -21,6 +21,9 @@ public class PostContract {
         void showChooseTodoCategory();
         void hideChooseTodoCategory();
 
+        void showChoosePriority();
+        void hideChoosePriority();
+
         void showEditContent();
         void hideEditContent();
 

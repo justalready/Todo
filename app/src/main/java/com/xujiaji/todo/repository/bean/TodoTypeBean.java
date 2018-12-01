@@ -3,8 +3,10 @@ package com.xujiaji.todo.repository.bean;
 import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.annotations.SerializedName;
+import com.xujiaji.todo.module.main.MainContract;
 import com.xujiaji.todo.module.main.TodoAdapter;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -107,7 +109,7 @@ public class TodoTypeBean extends AbstractExpandableItem<TodoTypeBean.TodoListBe
             return 0;
         }
 
-        public static class TodoBean implements MultiItemEntity {
+        public static class TodoBean implements MultiItemEntity, Comparable<TodoBean> {
             /**
              * completeDate : null
              * completeDateStr :
@@ -141,6 +143,16 @@ public class TodoTypeBean extends AbstractExpandableItem<TodoTypeBean.TodoListBe
             private int type;
             @SerializedName("userId")
             private int userId;
+            @SerializedName("priority")
+            private int priority;
+
+            public int getPriority() {
+                return priority;
+            }
+
+            public void setPriority(int priority) {
+                this.priority = priority;
+            }
 
             public long getCompleteDate() {
                 return completeDate;
@@ -225,6 +237,26 @@ public class TodoTypeBean extends AbstractExpandableItem<TodoTypeBean.TodoListBe
             @Override
             public int getItemType() {
                 return TodoAdapter.TYPE_TODO;
+            }
+
+            @Override
+            public int compareTo(TodoBean o) {
+                int a = priority;
+                int b = o.priority;
+                if (o.priority == MainContract.PRIORITY_NOTURGENT_NOTIMPORTANT || o.priority > MainContract.PRIORITY_URGENT_NOTIMPORTANT) {
+                    b = 10;
+                }
+                if (priority == MainContract.PRIORITY_NOTURGENT_NOTIMPORTANT || priority > MainContract.PRIORITY_URGENT_NOTIMPORTANT) {
+                    a = 10;
+                }
+
+                if (a == b) {
+                    return 0;
+                } else if (b > a) {
+                    return -1;
+                } else {
+                    return 1;
+                }
             }
         }
     }

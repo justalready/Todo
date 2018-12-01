@@ -45,8 +45,6 @@ public class Net {
      */
     public static final int NO = 0;
 
-    public static final String BASE_URL = "http://www.wanandroid.com/";
-
     public static final String SAVE_USER_LOGIN_KEY = "user/login";
     public static final String SAVE_USER_REGISTER_KEY = "user/register";
     public static final String SET_COOKIE_KEY = "set-cookie";
@@ -102,7 +100,7 @@ public class Net {
                 .build();
 
         api = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build()
@@ -147,7 +145,8 @@ public class Net {
                 todoBean.getTitle(),
                 todoBean.getContent(),
                 todoBean.getDateStr(),
-                todoBean.getType()).enqueue(callback);
+                todoBean.getType(),
+                todoBean.getPriority()).enqueue(callback);
     }
 
     public void postDelTodo(int id, Callback<Result> callback) {

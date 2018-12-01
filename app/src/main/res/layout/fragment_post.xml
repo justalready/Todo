@@ -67,11 +67,21 @@
                 app:srcCompat="@drawable/ic_todo_type_list" />
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/btnContent"
+                android:id="@+id/btnPriority"
                 android:layout_width="@dimen/default_height"
                 android:layout_height="@dimen/default_height"
                 android:layout_toEndOf="@id/btnTypeList"
                 android:layout_toRightOf="@id/btnTypeList"
+                android:scaleType="center"
+                app:srcCompat="@drawable/ic_priority" />
+
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/btnContent"
+                android:layout_width="@dimen/default_height"
+                android:layout_height="@dimen/default_height"
+                android:layout_toEndOf="@id/btnPriority"
+                android:layout_toRightOf="@id/btnPriority"
                 android:scaleType="center"
                 app:srcCompat="@drawable/ic_content" />
 

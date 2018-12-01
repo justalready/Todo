@@ -33,6 +33,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/rippleCheckBox" />
 
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/imgPriority"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/text"
+        app:layout_constraintEnd_toStartOf="@+id/text"
+        app:layout_constraintTop_toTopOf="@+id/text"
+        app:srcCompat="@drawable/ic_priority" />
+
+
     <View
         android:id="@+id/line"
         android:layout_width="0dp"

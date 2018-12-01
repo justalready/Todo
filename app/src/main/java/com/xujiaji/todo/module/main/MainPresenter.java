@@ -22,7 +22,10 @@ import com.xujiaji.todo.util.VersionUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.xujiaji.todo.repository.remote.Net.UPDATE_VERSION_URL;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 
 /**
  * author: xujiaji
@@ -35,9 +38,24 @@ public class MainPresenter extends BasePresenter<MainContract.View,MainModel> im
         model.catTodo(type, this, new DataCallbackImp<Result<TodoTypeBean>>(refreshLayout) {
             @Override
             public void success(Result<TodoTypeBean> bean) {
+                sortListByDate(bean.getData().getDoneList());
+                sortListByDate(bean.getData().getTodoList());
+                for (TodoTypeBean.TodoListBean todoListBean: bean.getData().getTodoList()) {
+                    Collections.sort(todoListBean.getTodoList());
+                }
                 view.displayList(bean.getData());
             }
         });
+    }
+
+    private void sortListByDate(List<TodoTypeBean.TodoListBean> listBeans) {
+        Collections.sort(listBeans, new Comparator<TodoTypeBean.TodoListBean>() {
+            @Override
+            public int compare(TodoTypeBean.TodoListBean o1, TodoTypeBean.TodoListBean o2) {
+                return o1.getDate() == o2.getDate() ? 0 : o1.getDate() > o2.getDate() ? -1 : 1;
+            }
+        });
+
     }
 
     @Override

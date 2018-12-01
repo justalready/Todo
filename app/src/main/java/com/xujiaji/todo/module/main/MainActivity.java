@@ -44,6 +44,7 @@ public class MainActivity extends  BaseActivity<MainPresenter> implements MainCo
     private FrameLayout mFragmentContainerView;
     private FloatingActionButton mFab;
     private BubbleDialog mBubbleDialog;
+    private View mBubbleDialogView;
     private BubbleDialog mContentBubbleDialog;
     private TextView mContentBubbleDialogText;
     private View mHeadView;
@@ -193,51 +194,60 @@ public class MainActivity extends  BaseActivity<MainPresenter> implements MainCo
     @Override
     public void showChooseTodoCategory() {
         if (mBubbleDialog == null) {
-            View view = LayoutInflater.from(this).inflate(R.layout.layout_choose_category, null);
+            mBubbleDialogView = LayoutInflater.from(this).inflate(R.layout.layout_choose_category, null);
             mBubbleDialog = new BubbleDialog(this)
                     .setPosition(BubbleDialog.Position.BOTTOM)
-                    .addContentView(view)
+                    .addContentView(mBubbleDialogView)
                     .setRelativeOffset(-24)
                     .setBubbleLayout(BubbleCreator.get(this));
             if (mBubbleDialog.getWindow() != null)
                 mBubbleDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-            view.findViewById(R.id.btnAbout).setOnClickListener(new View.OnClickListener() {
+            mBubbleDialogView.findViewById(R.id.btnAbout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     hideChooseTodoCategory();
                     AboutActivity.launch(MainActivity.this);
                 }
             });
-            view.findViewById(R.id.btnAbout).setVisibility(View.VISIBLE);
-            RadioGroup group = view.findViewById(R.id.rgGroup);
-            group.check(R.id.rbUseOne);
-            group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    hideChooseTodoCategory();
-                    switch (checkedId) {
-                        case R.id.rbUseOne:
-                            mHeadViewText.setText(R.string.use_one);
-                            mCategory = 0;
-                            break;
-                        case R.id.rbWork:
-                            mHeadViewText.setText(R.string.work);
-                            mCategory = 1;
-                            break;
-                        case R.id.rbLearn:
-                            mHeadViewText.setText(R.string.learn);
-                            mCategory = 2;
-                            break;
-                        case R.id.rbLife:
-                            mHeadViewText.setText(R.string.life);
-                            mCategory = 3;
-                            break;
-                    }
-                    mRefresh.setRefreshing(true);
-                    onRefresh();
-                }
-            });
+            mBubbleDialogView.findViewById(R.id.btnAbout).setVisibility(View.VISIBLE);
         }
+
+        RadioGroup group = mBubbleDialogView.findViewById(R.id.rgGroup);
+        switch (mCategory) {
+            case MainContract.CATEGORY_USE_ONE:
+                group.check(R.id.rbUseOne);
+            break;
+            case MainContract.CATEGORY_WORK:
+                group.check(R.id.rbWork);
+                break;
+            case MainContract.CATEGORY_LEARN:
+                group.check(R.id.rbLearn);
+                break;
+            case MainContract.CATEGORY_LIFE:
+                group.check(R.id.rbLife);
+                break;
+        }
+
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                hideChooseTodoCategory();
+                switch (checkedId) {
+                    case R.id.rbUseOne:
+                        onRefresh(MainContract.CATEGORY_USE_ONE);
+                        break;
+                    case R.id.rbWork:
+                        onRefresh(MainContract.CATEGORY_WORK);
+                        break;
+                    case R.id.rbLearn:
+                        onRefresh(MainContract.CATEGORY_LEARN);
+                        break;
+                    case R.id.rbLife:
+                        onRefresh(MainContract.CATEGORY_LIFE);
+                        break;
+                }
+            }
+        });
         mBubbleDialog.setClickedView(mHeadView);
         mBubbleDialog.show();
     }
@@ -268,6 +278,25 @@ public class MainActivity extends  BaseActivity<MainPresenter> implements MainCo
         presenter.requestTodo(mCategory, mRefresh);
     }
 
+    public void onRefresh(int category) {
+        mRefresh.setRefreshing(true);
+        mCategory = category;
+        switch (mCategory) {
+            case MainContract.CATEGORY_USE_ONE:
+                mHeadViewText.setText(R.string.use_one);
+                break;
+            case MainContract.CATEGORY_WORK:
+                mHeadViewText.setText(R.string.work);
+                break;
+            case MainContract.CATEGORY_LEARN:
+                mHeadViewText.setText(R.string.learn);
+                break;
+            case MainContract.CATEGORY_LIFE:
+                mHeadViewText.setText(R.string.life);
+                break;
+        }
+        onRefresh();
+    }
 
     @Override
     public void onBackPressed() {

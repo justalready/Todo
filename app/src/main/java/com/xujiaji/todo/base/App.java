@@ -40,6 +40,7 @@ public class App extends Application {
     private void initUM() {
         UMConfigure.init(this, "5bbf2736f1f55691100000c2", null, UMConfigure.DEVICE_TYPE_PHONE, null);
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        MobclickAgent.openActivityDurationTrack(false);
         MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
     }

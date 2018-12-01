@@ -18,6 +18,31 @@ import io.xujiaji.xmvp.contracts.XContract;
  * description:
  */
 public class MainContract {
+    public static final int CATEGORY_USE_ONE = 0;
+    public static final int CATEGORY_WORK = 1;
+    public static final int CATEGORY_LEARN = 2;
+    public static final int CATEGORY_LIFE = 3;
+
+    /**
+     * 既紧急又重要
+     */
+    public static final int PRIORITY_URGENT_IMPORTANT = 1;
+
+    /**
+     * 重要不紧急
+     */
+    public static final int PRIORITY_IMPORTANT_NOTURGENT = 2;
+
+    /**
+     * 紧急不重要
+     */
+    public static final int PRIORITY_URGENT_NOTIMPORTANT = 3;
+
+    /**
+     * 不紧急不重要
+     */
+    public static final int PRIORITY_NOTURGENT_NOTIMPORTANT = 0;
+
     interface View extends XContract.View {
         void displayList(TodoTypeBean todoTypeBean);
         void showChooseTodoCategory();
