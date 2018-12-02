@@ -3,7 +3,13 @@ package com.xujiaji.todo.module.about;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.xujiaji.todo.BuildConfig;
 import com.xujiaji.todo.R;
 import com.xujiaji.todo.base.BaseActivity;
 import com.xujiaji.todo.helper.ToolbarHelper;
@@ -28,6 +34,14 @@ public class AboutActivity extends BaseActivity {
     public void onInitCircle() {
         super.onInitCircle();
         ToolbarHelper.initMarginTopDiffBar(findViewById(R.id.btnBack));
+
+        TextView tvVersion = findViewById(R.id.tvVersion);
+        tvVersion.setText(String.format("V%s",  BuildConfig.VERSION_NAME));
+
+        Glide.with(this)
+                .applyDefaultRequestOptions(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                .load(BuildConfig.DOWNLOAD_RQ)
+                .into((ImageView) findViewById(R.id.imgRQ));
     }
 
     public void onClickAboutBack(View view) {

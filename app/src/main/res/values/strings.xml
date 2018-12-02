@@ -29,7 +29,7 @@
     <string name="loading">加载中…</string>
     <string name="about">关于</string>
     <string name="used_libraries">项目中使用的 Library</string>
-    <string name="give_friend_download"><![CDATA[分享给身边的好友扫描下载 >]]></string>
+    <string name="give_friend_download"><![CDATA[< 分享给身边的好友扫描下载 >]]></string>
     <string name="app_info">一个非常简洁清爽的清单工具，\n帮您轻松记录个人计划。\n\n
         本App的特色就是简洁，\n在交互上让人体会到视觉上的舒适感。 \n\n
         固定的4种清单分类在顶部可直接切换列表。 \n\n

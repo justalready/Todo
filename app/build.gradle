@@ -19,6 +19,7 @@ android {
         buildConfigField "String",           "BASE_URL", "$baseUrl"
         buildConfigField "String",       "LICENSES_URL", "$licensesUrl"
         buildConfigField "String", "UPDATE_VERSION_URL", "$versionUrl"
+        buildConfigField "String",        "DOWNLOAD_RQ", "$downloadQr"
         vectorDrawables.useSupportLibrary = true
     }
 
