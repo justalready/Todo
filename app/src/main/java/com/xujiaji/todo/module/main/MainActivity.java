@@ -1,9 +1,8 @@
 package com.xujiaji.todo.module.main;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +18,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.xujiaji.happybubble.BubbleDialog;
-import com.xujiaji.happybubble.BubbleLayout;
-import com.xujiaji.happybubble.Util;
 import com.xujiaji.todo.R;
 import com.xujiaji.todo.base.App;
 import com.xujiaji.todo.base.BaseActivity;
@@ -128,8 +125,7 @@ public class MainActivity extends  BaseActivity<MainPresenter> implements MainCo
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
                 MultiItemEntity entity = mTodoAdapter.getData().get(position);
                 if (entity.getItemType() == TodoAdapter.TYPE_TODO) {
-                    TodoTypeBean.TodoListBean.TodoBean todoBean = (TodoTypeBean.TodoListBean.TodoBean) entity;
-                    showDeleteTip(position, todoBean);
+                    showLongClickDialog(view, position, (TodoTypeBean.TodoListBean.TodoBean) entity);
                     return true;
                 }
                 return false;
@@ -141,22 +137,30 @@ public class MainActivity extends  BaseActivity<MainPresenter> implements MainCo
 
     public void onClickHomeFab(View view) {
         if (App.Login.isOK()) {
-            showEnterPost();
+            showEnterPost(null);
         } else {
             LoginDialogActivity.launch(this);
         }
     }
 
-    private void showEnterPost() {
+    private void showEnterPost(TodoTypeBean.TodoListBean.TodoBean todoBean) {
         mFragmentContainerView.setVisibility(View.VISIBLE);
         mFab.hide();
         PostFragment fragment = (PostFragment) getSupportFragmentManager().findFragmentByTag("PostFragment");
         if (fragment == null) {
+            if (todoBean != null) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("todo_bean", todoBean);
+                mPostFragment.setArguments(bundle);
+            }
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.fragmentContainer, mPostFragment, "PostFragment")
                     .commit();
         } else {
+            if (todoBean != null) {
+                fragment.handleArgument(todoBean);
+            }
             getSupportFragmentManager()
                     .beginTransaction()
                     .show(fragment)
@@ -271,6 +275,34 @@ public class MainActivity extends  BaseActivity<MainPresenter> implements MainCo
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void showLongClickDialog(android.view.View clickView, final int position, final TodoTypeBean.TodoListBean.TodoBean todoBean) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.layout_choose_todo_operate, null);
+        final BubbleDialog bubbleDialog = new BubbleDialog(this)
+                .setClickedView(clickView)
+                .addContentView(contentView)
+                .setRelativeOffset(-16)
+                .setBubbleLayout(BubbleCreator.get(this))
+                .setPosition(BubbleDialog.Position.TOP, BubbleDialog.Position.BOTTOM);
+        contentView.findViewById(R.id.btnDelete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bubbleDialog.dismiss();
+                showDeleteTip(position, todoBean);
+            }
+        });
+
+        contentView.findViewById(R.id.btnEdit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bubbleDialog.dismiss();
+                showEnterPost(todoBean);
+            }
+        });
+
+        bubbleDialog.show();
     }
 
     @Override

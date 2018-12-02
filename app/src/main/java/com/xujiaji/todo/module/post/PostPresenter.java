@@ -33,4 +33,21 @@ public class PostPresenter extends BasePresenter<PostContract.View,PostModel> im
             }
         });
     }
+
+    @Override
+    public void requestUpdateTodo(TodoTypeBean.TodoListBean.TodoBean todoBean) {
+        view.displayAddTodoIng();
+        model.catUpdateTodo(todoBean, this, new DataCallbackImp<Result>() {
+            @Override
+            public void finished() {
+                super.finished();
+                view.displayAddTodoFinished();
+            }
+
+            @Override
+            public void success(Result bean) {
+                ToastHelper.success(App.getInstance().getString(R.string.success_edit));
+            }
+        });
+    }
 }

@@ -1,10 +1,13 @@
 package com.xujiaji.todo.module.post;
 
+import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +20,7 @@ import com.xujiaji.happybubble.BubbleDialog;
 import com.xujiaji.todo.R;
 import com.xujiaji.todo.base.App;
 import com.xujiaji.todo.base.BaseFragment;
+import com.xujiaji.todo.helper.BubbleCreator;
 import com.xujiaji.todo.helper.InputHelper;
 import com.xujiaji.todo.helper.ToastHelper;
 import com.xujiaji.todo.helper.ToolbarHelper;
@@ -48,6 +52,7 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
     private BubbleDialog mBubbleDialog;
     private BubbleDialog mEditContentBubbleDialog;
     private BubbleDialog mChoosePriorityDialog;
+    private TodoTypeBean.TodoListBean.TodoBean mEditTodoBean;
 
     private @ColorInt int grey = ContextCompat.getColor(App.getInstance(), R.color.grey_500);
     private @ColorInt int green = ContextCompat.getColor(App.getInstance(), R.color.green_500);
@@ -83,6 +88,16 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
     }
 
     @Override
+    public void onArgumentsHandle(@NonNull Bundle bundle) {
+        super.onArgumentsHandle(bundle);
+        handleArgument((TodoTypeBean.TodoListBean.TodoBean) bundle.getParcelable("todo_bean"));
+    }
+
+    public void handleArgument(TodoTypeBean.TodoListBean.TodoBean todoBean) {
+        mEditTodoBean = todoBean;
+    }
+
+    @Override
     public void onVisible() {
         super.onVisible();
         mDate = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(System.currentTimeMillis());
@@ -101,6 +116,22 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
         mBubbleDialog = null;
         mEditContentBubbleDialog = null;
         mChoosePriorityDialog = null;
+        displayEdit();
+    }
+
+    private void displayEdit() {
+        if (mEditTodoBean == null) return;
+        mContent = mEditTodoBean.getContent();
+        mEtInput.setText(mEditTodoBean.getTitle());
+        mCategory = mEditTodoBean.getType();
+        mPriority = mEditTodoBean.getPriority();
+        mDate = mEditTodoBean.getDateStr();
+    }
+
+    @Override
+    public void onInvisible() {
+        super.onInvisible();
+        mEditTodoBean = null;
     }
 
     @Override
@@ -198,7 +229,13 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
         todoBean.setContent(mContent);
         todoBean.setDateStr(mDate);
         todoBean.setPriority(mPriority);
-        presenter.requestAddTodo(todoBean);
+        if (mEditTodoBean != null) {
+            todoBean.setId(mEditTodoBean.getId());
+            todoBean.setStatus(mEditTodoBean.getStatus());
+            presenter.requestUpdateTodo(todoBean);
+        } else {
+            presenter.requestAddTodo(todoBean);
+        }
     }
 
     @Override
@@ -230,9 +267,27 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_choose_category, null);
             mBubbleDialog = new BubbleDialog(getActivity())
                     .setPosition(BubbleDialog.Position.TOP)
+                    .setBubbleLayout(BubbleCreator.get(getActivity()))
                     .addContentView(view);
             RadioGroup group = view.findViewById(R.id.rgGroup);
-            group.check(R.id.rbUseOne);
+            if (mEditTodoBean != null) {
+                switch (mEditTodoBean.getType()) {
+                    case MainContract.CATEGORY_USE_ONE:
+                        group.check(R.id.rbUseOne);
+                        break;
+                    case MainContract.CATEGORY_WORK:
+                        group.check(R.id.rbWork);
+                        break;
+                    case MainContract.CATEGORY_LEARN:
+                        group.check(R.id.rbLearn);
+                        break;
+                    case MainContract.CATEGORY_LIFE:
+                        group.check(R.id.rbLife);
+                        break;
+                }
+            } else {
+                group.check(R.id.rbUseOne);
+            }
             group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -274,8 +329,24 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_choose_priority, null);
             mChoosePriorityDialog = new BubbleDialog(getActivity())
                     .setPosition(BubbleDialog.Position.TOP)
-                    .addContentView(view);
+                    .addContentView(view)
+                    .setBubbleLayout(BubbleCreator.get(getActivity()));
             RadioGroup group = view.findViewById(R.id.rgGroup);
+            if (mEditTodoBean != null) {
+                switch (mEditTodoBean.getPriority()) {
+                    case MainContract.PRIORITY_URGENT_IMPORTANT:
+                        group.check(R.id.rbPriorityUrgentImportant);
+                        break;
+                    case MainContract.PRIORITY_IMPORTANT_NOTURGENT:
+                        group.check(R.id.rbPriorityImportantNotUrgent);
+                        break;
+                    case MainContract.PRIORITY_URGENT_NOTIMPORTANT:
+                        group.check(R.id.rbPriorityUrgentNotImportant);
+                        break;
+                        default:
+                }
+            }
+
             group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -319,9 +390,13 @@ public class PostFragment extends BaseFragment<PostPresenter> implements PostCon
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_add_content, null);
             mEditContentBubbleDialog = new BubbleDialog(getActivity())
                     .addContentView(view)
+                    .setBubbleLayout(BubbleCreator.get(getActivity()))
                     .setPosition(BubbleDialog.Position.TOP);
 
             final EditText editText = view.findViewById(R.id.etEditContent);
+            if (mEditTodoBean != null) {
+                editText.setText(mEditTodoBean.getContent());
+            }
             view.findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

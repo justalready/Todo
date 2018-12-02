@@ -51,7 +51,8 @@ public interface API {
                                 @Field("content") String content,
                                 @Field("date")       String date,
                                 @Field("status")      int status,
-                                @Field("type")         int type);
+                                @Field("type")          int type,
+                                @Field("priority")  int priority);
 
     /**
      * 新增一个todo

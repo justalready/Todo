@@ -2,6 +2,7 @@ package com.xujiaji.todo.module.main;
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 
 import com.xujiaji.todo.base.PresenterLife;
 import com.xujiaji.todo.repository.bean.Result;
@@ -48,6 +49,7 @@ public class MainContract {
         void showChooseTodoCategory();
         void hideChooseTodoCategory();
         void showDeleteTip(int position, TodoTypeBean.TodoListBean.TodoBean todoBean);
+        void showLongClickDialog(android.view.View clickView, final int position, final TodoTypeBean.TodoListBean.TodoBean todoBean);
     }
 
     interface Presenter extends XContract.Presenter {
@@ -58,7 +60,7 @@ public class MainContract {
         void checkAppUpdate(Activity activity);
     }
 
-    interface Model extends XContract.Model {
+    public interface Model extends XContract.Model {
         void catTodo(int type, PresenterLife presenterLife, DataCallback<Result<TodoTypeBean>> callback);
         void catUpdateTodo(TodoTypeBean.TodoListBean.TodoBean todoBean, PresenterLife presenterLife, DataCallback<Result> callback);
         void catDelTodo(int id, PresenterLife presenterLife, DataCallback<Result> callback);

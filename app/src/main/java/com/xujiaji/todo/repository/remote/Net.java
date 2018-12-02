@@ -136,7 +136,8 @@ public class Net {
                 todoBean.getContent(),
                 todoBean.getDateStr(),
                 todoBean.getStatus(),
-                todoBean.getType()).enqueue(callback);
+                todoBean.getType(),
+                todoBean.getPriority()).enqueue(callback);
     }
 
 

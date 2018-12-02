@@ -1,5 +1,8 @@
 package com.xujiaji.todo.repository.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.google.gson.annotations.SerializedName;
@@ -109,7 +112,7 @@ public class TodoTypeBean extends AbstractExpandableItem<TodoTypeBean.TodoListBe
             return 0;
         }
 
-        public static class TodoBean implements MultiItemEntity, Comparable<TodoBean> {
+        public static class TodoBean implements MultiItemEntity, Comparable<TodoBean>, Parcelable {
             /**
              * completeDate : null
              * completeDateStr :
@@ -258,6 +261,55 @@ public class TodoTypeBean extends AbstractExpandableItem<TodoTypeBean.TodoListBe
                     return 1;
                 }
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeLong(this.completeDate);
+                dest.writeString(this.completeDateStr);
+                dest.writeString(this.content);
+                dest.writeLong(this.date);
+                dest.writeString(this.dateStr);
+                dest.writeInt(this.id);
+                dest.writeInt(this.status);
+                dest.writeString(this.title);
+                dest.writeInt(this.type);
+                dest.writeInt(this.userId);
+                dest.writeInt(this.priority);
+            }
+
+            public TodoBean() {
+            }
+
+            protected TodoBean(Parcel in) {
+                this.completeDate = in.readLong();
+                this.completeDateStr = in.readString();
+                this.content = in.readString();
+                this.date = in.readLong();
+                this.dateStr = in.readString();
+                this.id = in.readInt();
+                this.status = in.readInt();
+                this.title = in.readString();
+                this.type = in.readInt();
+                this.userId = in.readInt();
+                this.priority = in.readInt();
+            }
+
+            public static final Parcelable.Creator<TodoBean> CREATOR = new Parcelable.Creator<TodoBean>() {
+                @Override
+                public TodoBean createFromParcel(Parcel source) {
+                    return new TodoBean(source);
+                }
+
+                @Override
+                public TodoBean[] newArray(int size) {
+                    return new TodoBean[size];
+                }
+            };
         }
     }
 }

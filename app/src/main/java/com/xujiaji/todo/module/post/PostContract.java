@@ -1,6 +1,7 @@
 package com.xujiaji.todo.module.post;
 
 import com.xujiaji.todo.base.PresenterLife;
+import com.xujiaji.todo.module.main.MainContract;
 import com.xujiaji.todo.repository.bean.Result;
 import com.xujiaji.todo.repository.bean.TodoTypeBean;
 import com.xujiaji.todo.repository.remote.DataCallback;
@@ -33,9 +34,10 @@ public class PostContract {
 
     interface Presenter extends XContract.Presenter {
         void requestAddTodo(TodoTypeBean.TodoListBean.TodoBean todoBean);
+        void requestUpdateTodo(TodoTypeBean.TodoListBean.TodoBean todoBean);
     }
 
-    interface Model extends XContract.Model {
+    interface Model extends XContract.Model, MainContract.Model {
         void catAddTodo(TodoTypeBean.TodoListBean.TodoBean todoBean, PresenterLife presenterLife, DataCallback<Result> callback);
     }
 }
