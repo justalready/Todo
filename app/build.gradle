@@ -13,14 +13,18 @@ android {
         applicationId "com.xujiaji.todo"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 14
-        versionName "1.0.13"
+        versionCode 15
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String",           "BASE_URL", "$baseUrl"
         buildConfigField "String",       "LICENSES_URL", "$licensesUrl"
         buildConfigField "String", "UPDATE_VERSION_URL", "$versionUrl"
         buildConfigField "String",        "DOWNLOAD_RQ", "$downloadQr"
         vectorDrawables.useSupportLibrary = true
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     signingConfigs {

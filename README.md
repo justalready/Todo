@@ -11,21 +11,65 @@
 [<img src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/github/fir_download.png"
       alt="fir下载"
       height="80">](https://fir.im/wantodo) 
+## 提示
+本软件和[WanAndroid](https://github.com/xujiaji/WanAndroid)软件账号信息本地共享，如果登录一个后，那么另一个无需再次登录！
 
-## Screenshots
+## 截屏
+1、进入软件时，如未登录，会提示未登录状态状态。点击右下角加号即可弹出登录窗口进行登录或注册。
 <div >
-<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/a.png" width="24%" height="auto">
-<img style="margin-left:0px;" src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/b.png" width="24%" >
-<img style="margin-left:0px;" src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/c.png" width="24%" >
-<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/d.png" width="24%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181202154725.png" width="33%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181202160311.png" width="33%" height="auto">
 </div>
 
+2、进入首页后是这样的
+
+- 点击顶部操作按钮可以切换清单分类；
+- 长按选择修改或删除；
+- 右下角加号添加清单。
+
 <div >
-<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/e.png" width="24%" height="auto">
-<img style="margin-left:0px;" src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/f.png" width="24%" >
-<img style="margin-left:0px;" src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/g.png" width="24%" >
-<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/h.png" width="24%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203085443.png" width="33%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203085651.png" width="33%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203085710.png" width="33%" height="auto">
 </div>
+---
+
+- 点击删除后，提示是否删除
+
+<div >
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203090239.png" width="33%" height="auto">
+</div>
+---
+
+- 点击顶部切换按钮，然后点击关于，进入关于界面；点击项目中使用的Library进入使用的开源类库列表
+
+<div >
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203090451.png" width="33%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203090511.png" width="33%" height="auto">
+</div>
+---
+
+- 点击首页右下角添加按钮进入添加清单界面（编辑界面也是这个）<br>
+分别是选择时间、选择分类、选择优先级
+
+<div >
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203103705.png" width="33%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203103734.png" width="33%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203103804.png" width="33%" height="auto">
+</div>
+---
+
+- 第四个按钮添加内容；点击右下角按钮完成添加，添加完成成功后主页会跳转到对应分类进行一次刷新
+- 有留言的清单可单击查看留言
+
+<div >
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203103902.png" width="33%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203104322.png" width="33%" height="auto">
+<img  src="https://raw.githubusercontent.com/xujiaji/xujiaji.github.io/pictures/todo/screen/20181203104456.png" width="33%" height="auto">
+</div>
+
+## 其他
+欢迎大家使用，反馈Issues，支持Star，学习贡献Fork。Thanks♪(･ω･)ﾉ
 
 ## License
 > Copyright (C) 2018 Xu Jiaji  
